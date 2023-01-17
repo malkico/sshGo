@@ -3,6 +3,7 @@ TARGET_ARCH = "amd64" "arm64"
 
 clean: 
 	rm -rf .build
+	rm -rf test/targets/*
 
 build: clean
 	for os in $(TARGET_OS);do                                                          \
