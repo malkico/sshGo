@@ -7,9 +7,6 @@ import (
 
 const PERMS_DIRECTORY = 0755
 
-var COUNTER_FILES = 0
-var COUNTER_FOLDER = 0
-
 func Copy(origin string, target string) error {
 	fi, err := os.Stat(origin)
 	if os.IsNotExist(err) {
