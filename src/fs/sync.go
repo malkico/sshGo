@@ -81,24 +81,16 @@ func folder(origin string, target string) error {
 		return err
 	}
 
-	if DEBUG {
-		fmt.Println("COPY:", origin, "->", target, "FOLDER")
-	}
-
-	if PROGRESS {
-		PROGRESS_BAR.Add(1)
-	}
-
 	for _, entry := range entries {
 		if entry.IsDir() {
-			err := os.Mkdir(target+"/"+entry.Name(), PERMS_DIRECTORY)
+			err := CopyFolder(origin+"/"+entry.Name(), target+"/"+entry.Name())
 			if err != nil {
 				return err
 			}
 
 			folder(origin+"/"+entry.Name(), target+"/"+entry.Name())
 		} else {
-			err := file(origin+"/"+entry.Name(), target+"/"+entry.Name())
+			err := CopyFile(origin+"/"+entry.Name(), target+"/"+entry.Name())
 			if err != nil {
 				return err
 			}
@@ -106,4 +98,28 @@ func folder(origin string, target string) error {
 	}
 
 	return nil
+}
+
+func CopyFolder(origin string, target string) error {
+	if DEBUG {
+		fmt.Println("COPY FOLDER:", origin, "->", target)
+	}
+
+	if PROGRESS {
+		PROGRESS_BAR.Add(1)
+	}
+
+	return os.Mkdir(target, PERMS_DIRECTORY)
+}
+
+func CopyFile(origin string, target string) error {
+	if DEBUG {
+		fmt.Println("COPY FILE:", origin, "->", target)
+	}
+
+	if PROGRESS {
+		PROGRESS_BAR.Add(1)
+	}
+
+	return file(origin, target)
 }
