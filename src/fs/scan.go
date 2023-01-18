@@ -34,7 +34,3 @@ func Scan(origin string, target string) ([]string, []string, error) {
 
 	return folders, files, nil
 }
-
-// folder 1111
-// file 3298
-// total 4409
