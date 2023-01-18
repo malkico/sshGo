@@ -7,6 +7,9 @@ import (
 
 const PERMS_DIRECTORY = 0755
 
+var COUNTER_FILES = 0
+var COUNTER_FOLDER = 0
+
 func Copy(origin string, target string) error {
 	fi, err := os.Stat(origin)
 	if os.IsNotExist(err) {
@@ -62,7 +65,7 @@ func file(origin string, target string) error {
 	}
 
 	if DEBUG {
-		fmt.Println("COPY FICHIER:", origin, "->", target)
+		fmt.Println("COPY:", origin, "->", target, "FILE")
 	}
 
 	if PROGRESS {
@@ -78,18 +81,17 @@ func folder(origin string, target string) error {
 		return err
 	}
 
+	if DEBUG {
+		fmt.Println("COPY:", origin, "->", target, "FOLDER")
+	}
+
+	if PROGRESS {
+		PROGRESS_BAR.Add(1)
+	}
+
 	for _, entry := range entries {
 		if entry.IsDir() {
 			err := os.Mkdir(target+"/"+entry.Name(), PERMS_DIRECTORY)
-
-			if DEBUG {
-				fmt.Println("COPY FOLDER:", origin, "->", target)
-			}
-
-			if PROGRESS {
-				PROGRESS_BAR.Add(1)
-			}
-
 			if err != nil {
 				return err
 			}
