@@ -9,14 +9,11 @@ const PERMS_DIRECTORY = 0755
 const DEBUG = true
 
 func Copy(origin string, target string) error {
-	// source existe ?
 	fi, err := os.Stat(origin)
 	if os.IsNotExist(err) {
-		// remonte error
 		return err
 	}
 
-	// FILE
 	if !fi.IsDir() {
 		if err := os.RemoveAll(target); err != nil {
 			return err
@@ -25,7 +22,6 @@ func Copy(origin string, target string) error {
 		return file(origin, target)
 	}
 
-	// FOLDER
 	if fi, _ := os.Stat(target); fi != nil {
 		if err := os.RemoveAll(target); err != nil {
 			return err
